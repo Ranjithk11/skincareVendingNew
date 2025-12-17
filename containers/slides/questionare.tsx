@@ -154,10 +154,10 @@ export default function Questionnaire() {
       return;
     }
 
-    const countryCode = "+91";
+   const countryCode = "91";
     const formattedPhoneNumber = phone.trim().startsWith("+")
       ? phone.trim()
-      : `${countryCode} ${phone.trim()}`;
+      : `+${countryCode} ${phone.trim()}`;
 
     const skinTypeIdByOption: Record<string, string> = {
       normal: "NORMAL_SKIN",
@@ -180,8 +180,8 @@ export default function Questionnaire() {
         skinType: skinTypeId,
         onBoardingQuestions: [
           {
-            _id: "skinType",
-            responses: [{ value: skinTypeId }],
+            questionId: "skinType",
+            responseId: [skinTypeId],
           },
         ],
       });
@@ -213,8 +213,8 @@ export default function Questionnaire() {
           location: "Vending machine",
           onBoardingQuestions: JSON.stringify([
             {
-              _id: "skinType",
-              responses: [{ value: skinTypeId }],
+              questionId: "skinType",
+              responseId: [skinTypeId],
             },
           ]),
         });

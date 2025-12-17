@@ -208,7 +208,7 @@ export default function DietChart({ data }: DietChartProps) {
               <Tile image="/diet/grilledChicken.png" label="Grilled chicken" />
             </Grid>
           </Grid>
-            <SectionCard sx={{ mt: 2 }}>
+          <SectionCard sx={{ mt: 2 }}>
           <Box display="flex" alignItems="center" mb={0.5}>
             <Typography fontWeight={900}>Dinner</Typography>
             <Box flex={1} />
@@ -235,8 +235,6 @@ export default function DietChart({ data }: DietChartProps) {
         </SectionCard>
         </SectionCard>
 
-        {/* DINNER OPTION 2 */}
-      
       </Container>
     </PageBackground>
   );
