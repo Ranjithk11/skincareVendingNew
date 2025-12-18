@@ -10,6 +10,12 @@ interface FeatureCardProps {
   qrCodeSrc?: string;
   activeIndex?: number;
   totalDots?: number;
+  qrBoxWidth?: number;
+  qrBoxHeight?: number;
+  qrBoxTop?: number | string;
+  qrBoxRight?: number;
+  qrBoxBorderRadius?: number;
+  qrBoxCenterY?: boolean;
 }
 
 export default function FeatureCard({
@@ -19,6 +25,12 @@ export default function FeatureCard({
   qrCodeSrc = "/wending/qr.svg",
   activeIndex = 0,
   totalDots = 3,
+  qrBoxWidth = 120,
+  qrBoxHeight = 120,
+  qrBoxTop = "50%",
+  qrBoxRight = 20,
+  qrBoxBorderRadius = 0,
+  qrBoxCenterY = true,
 }: FeatureCardProps) {
   return (
     <Box
@@ -36,20 +48,28 @@ export default function FeatureCard({
         <Typography
           sx={{
             color: "#FFFFFF",
+            fontFamily: "SF Pro",
+            fontWeight: 200,
+            fontStyle: "normal",
+            fontSize: "20px",
+            lineHeight: "100%",
+            letterSpacing: 0,
             textTransform: "uppercase",
-            letterSpacing: "0.1em",
             mb: 0.5,
             display: "block",
-            fontSize: { xs: "0.65rem", sm: "0.75rem" },
           }}
         >
           {label}
         </Typography>
         <Typography
           sx={{
-            fontWeight: 700,
+            fontFamily: "SF Pro",
+            fontWeight: 300,
+            fontStyle: "normal",
+            fontSize: "30px",
+            lineHeight: "100%",
+            letterSpacing: 0,
             mb: 0.5,
-            fontSize: { xs: "1rem", sm: "1.25rem" },
           }}
         >
           {title}
@@ -57,9 +77,13 @@ export default function FeatureCard({
         <Typography
           sx={{
             color: "#FFFFFF",
-            lineHeight: 1.5,
-            fontSize: { xs: "0.75rem", sm: "0.875rem" },
-            maxWidth: { xs: "85%", sm: "75%" },
+            fontFamily: "SF Pro",
+            fontWeight: 200,
+            fontStyle: "normal",
+            fontSize: "20px",
+            lineHeight: "100%",
+            letterSpacing: 0,
+            maxWidth: "75%",
           }}
         >
           {description}
@@ -85,24 +109,25 @@ export default function FeatureCard({
       <Box
         sx={{
           position: "absolute",
-          right: { xs: 12, sm: 16, md: 20 },
-          top: "50%",
-          transform: "translateY(-50%)",
-          width: { xs: 80, sm: 100, md: 110 },
-          height: { xs: 80, sm: 100, md: 110 },
+          right: qrBoxRight,
+          top: qrBoxCenterY ? "50%" : qrBoxTop,
+          transform: qrBoxCenterY ? "translateY(-50%)" : undefined,
+          width: qrBoxWidth,
+          height: qrBoxHeight,
           bgcolor: "white",
-          borderRadius: { xs: 2, sm: 2.5 },
+          borderRadius: `${qrBoxBorderRadius}px`,
           p: 1,
           boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
         }}
       >
-        <Image
-          src={qrCodeSrc}
-          alt="QR Code"
-          width={100}
-          height={100}
-          style={{ width: "100%", height: "100%", objectFit: "contain" }}
-        />
+        <Box sx={{ position: "relative", width: "100%", height: "100%" }}>
+          <Image
+            src={qrCodeSrc}
+            alt="QR Code"
+            fill
+            style={{ objectFit: "contain" }}
+          />
+        </Box>
       </Box>
     </Box>
   );

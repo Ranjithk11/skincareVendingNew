@@ -6,16 +6,18 @@ import { ReactNode } from "react";
 
 interface PageBackgroundProps {
   children: ReactNode;
+  showGreenCurve?: boolean;
 }
 
 export default function PageBackground({
   children,
+  showGreenCurve = false,
 }: PageBackgroundProps) {
   return (
     <Box
       sx={{
         minHeight: "100dvh",
-        bgcolor: "#f8f6f0",
+        bgcolor: "#F9F9F9",
         position: "relative",
         overflow: "visible",
         display: "flex",
@@ -28,7 +30,8 @@ export default function PageBackground({
           position: "absolute",
           top: 0,
           left: 0,
-          width: { xs: "100%", sm: "80%", md: "100%" },
+          right: 0,
+          width: "100vw",
           height: { xs: "45%", sm: "50%", md: "100%" },
           zIndex: 0,
           pointerEvents: "none",
@@ -40,7 +43,7 @@ export default function PageBackground({
             alt=""
             fill
             style={{
-              objectFit: "contain",
+              objectFit: "cover",
               objectPosition: "top left",
             }}
             priority
@@ -59,6 +62,29 @@ export default function PageBackground({
           />
         </Box>
       </Box>
+
+      {showGreenCurve ? (
+        <Box
+          component="svg"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+          sx={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            width: "100%",
+            height: "50%",
+            zIndex: 0,
+            pointerEvents: "none",
+          }}
+        >
+          <path
+            d="M100,100 L100,0 Q70,20 40,50 Q15,75 0,100 L0,100 Z"
+            fill="#9FF99F6B"
+          />
+        </Box>
+      ) : null}
 
 
       {/* Content */}
