@@ -16,10 +16,29 @@ const HomePage = () => {
   const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
 
   useEffect(() => {
-    validateDomain({
-     subDomain:"skinska"
-    })
-  }, []);
+    const getSubDomain = () => {
+      if (typeof window === "undefined") return null;
+
+      const host = window.location.hostname;
+      const parts = host.split(".").filter(Boolean);
+
+      if (parts.length === 2 && parts[1] === "localhost") {
+        return parts[0];
+      }
+
+      if (parts.length <= 2) return null;
+
+      const sub = parts[0];
+      if (!sub || sub === "www") return null;
+
+      return sub;
+    };
+
+    const subDomain = getSubDomain();
+    if (!subDomain) return;
+
+    validateDomain({ subDomain });
+  }, [validateDomain]);
 
 
   return (
@@ -29,7 +48,7 @@ const HomePage = () => {
         <HowItWork />
         <ScanYourFace />
         <StepThree /> */}
-        {isDesktop ? <DesktopLandingPage /> : <LandingPage />}
+        <LandingPage />
       </Container>
     </>
   );

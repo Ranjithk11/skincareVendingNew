@@ -24,9 +24,9 @@ const TopHeaderComponent = () => {
         <Grid container spacing={2} alignItems="center">
           <Grid item xs>
             <Marquee>
-              India's exports rose by 6.21 per cent to USD 33.57 billion in
+              India&apos;s exports rose by 6.21 per cent to USD 33.57 billion in
               October this year, as against USD 31.6 billion a year-ago,
-              government data showed on Wednesday. India's exports rose by 6.21
+              government data showed on Wednesday. India&apos;s exports rose by 6.21
               per cent to USD 33.57 billion in October this year, as against USD
               31.6 billion a year-ago, government data showed on Wednesday.
             </Marquee>

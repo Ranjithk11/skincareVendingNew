@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   camera,
   faceDetectionAdapter,
@@ -100,6 +100,7 @@ interface ARCameraComponentProps {
   onSkip: () => void;
   disabledSkipBtn?: boolean;
   initializing: boolean;
+  autoStart?: boolean;
 }
 
 const ARCameraComponent = ({
@@ -107,10 +108,12 @@ const ARCameraComponent = ({
   onSkip,
   disabledSkipBtn,
   initializing,
+  autoStart = false,
 }: ARCameraComponentProps) => {
   const { takePicture } = camera();
   const [isCamOpen, setIsCamOpen] = useState<boolean>(false);
   const refAccessFiles = useRef<HTMLInputElement>(null);
+  const hasAutoStartedRef = useRef(false);
 
   async function handleTakePicture() {
     setIsCamOpen(true);
@@ -140,13 +143,22 @@ const ARCameraComponent = ({
     };
   };
 
+  useEffect(() => {
+    if (!autoStart) return;
+    if (initializing) return;
+    if (isCamOpen) return;
+    if (hasAutoStartedRef.current) return;
+
+    hasAutoStartedRef.current = true;
+    handleTakePicture();
+  }, [autoStart, initializing, isCamOpen]);
+
   return (
     <>
       {!isCamOpen && (
         <Box
           component="div"
           className="scanning-section"
-          style={{ backgroundImage: `url(/images/scanningbg.png)` }}
         >
           <Box pt={2}>
             <Grid container spacing={6}>
@@ -180,7 +192,7 @@ const ARCameraComponent = ({
                     Take Selfie
                   </Button>
                 </Grid>
-                <Grid item>
+                {/* <Grid item>
                   <Button
                     disabled={initializing}
                     sx={{ backgroundColor: "#48C2DD" }}
@@ -198,7 +210,7 @@ const ARCameraComponent = ({
                   >
                     Gallery
                   </Button>
-                </Grid>
+                </Grid> */}
               </Grid>
               <Grid
                 container

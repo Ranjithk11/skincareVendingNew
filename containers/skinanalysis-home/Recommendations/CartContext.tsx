@@ -74,7 +74,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };
 
-export const useCart = () => {
+export const useCart = (): CartContextValue => {
   const ctx = useContext(CartContext);
   if (!ctx) {
     return {

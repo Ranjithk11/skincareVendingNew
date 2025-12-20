@@ -592,7 +592,7 @@ const TakeSelfie = () => {
 
       {!openCamera && (
         <Box
-          style={{ backgroundImage: `url(/images/homeBg_1.png)` }}
+          // style={{ backgroundImage: `url(/images/homeBg_1.png)` }}
           component="div"
           className="photo-wrapper"
         >
@@ -648,7 +648,7 @@ const TakeSelfie = () => {
                       <Typography variant="body1" textAlign="center">
                         {skinAttributeStatus?.message}
                       </Typography>
-                      <Button
+                      {/* <Button
                         size="small"
                         color="milkWhite"
                         variant="outlined"
@@ -657,7 +657,7 @@ const TakeSelfie = () => {
                         onClick={() => setSkinAttributeStatus(null)}
                       >
                         Ok
-                      </Button>
+                      </Button> */}
                     </Box>
                   )}
                   {isLoadingSkinAttributes && (
@@ -724,6 +724,7 @@ const TakeSelfie = () => {
       )}
       {openCamera && (
         <ARCameraComponent
+          autoStart={true}
           initializing={initializing}
           disabledSkipBtn={!dataImageInfo}
           onSkip={() => {
