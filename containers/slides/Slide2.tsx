@@ -158,7 +158,7 @@ export default function Slide2({
             bgcolor: "#2d5a3d",
             py: 3,
             mx: 3,
-            mb: 3,
+            mb: 10,
             borderRadius: 2,
             textAlign: "center",
             cursor: "pointer",

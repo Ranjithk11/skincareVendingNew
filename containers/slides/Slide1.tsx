@@ -206,8 +206,8 @@ export default function Slide1({
           sx={{
             bgcolor: "#d1d5db",
             px: 2,
-            py: 2,
-            pb: 2,
+            py: 6,
+            pb: 12,
             flexShrink: 0,
           }}
         >
