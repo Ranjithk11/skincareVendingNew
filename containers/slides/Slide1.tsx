@@ -218,7 +218,7 @@ export default function Slide1({
                   onClick={() => handleKeyPress("shift")}
                   sx={{
                     width: 100,
-                    height: 80,
+                    height: 100,
                     bgcolor: isShift ? "#9ca3af" : "#f3f4f6",
                     borderRadius: 1,
                     display: "flex",

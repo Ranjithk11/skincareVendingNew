@@ -10,7 +10,11 @@ import { Box, Grid, Typography, styled } from "@mui/material";
 import { APP_BAR_SIZE } from "@/utils/constants";
 import { Icon } from "@iconify/react";
 
-const StyledCameraCapture = styled(Box)(({ theme }) => ({}));
+const StyledCameraCapture = styled(Box)(({ theme }) => ({
+  padding: 10,
+  boxSizing: "border-box",
+  overflow: "hidden",
+}));
 
 const StyledARCameraComponent = styled(Box)(({ theme }) => ({
   // height: `calc(100vh - ${APP_BAR_SIZE}px)`,
@@ -114,6 +118,7 @@ const ARCameraComponent = ({
   const [isCamOpen, setIsCamOpen] = useState<boolean>(false);
   const refAccessFiles = useRef<HTMLInputElement>(null);
   const hasAutoStartedRef = useRef(false);
+  const maskTweakedRef = useRef(false);
 
   async function handleTakePicture() {
     setIsCamOpen(true);
@@ -152,6 +157,122 @@ const ARCameraComponent = ({
     hasAutoStartedRef.current = true;
     handleTakePicture();
   }, [autoStart, initializing, isCamOpen]);
+
+  useEffect(() => {
+    if (!isCamOpen) {
+      maskTweakedRef.current = false;
+      return;
+    }
+
+    const root = document.querySelector("#elementId") as HTMLDivElement | null;
+    if (!root) return;
+
+    const applyMaskTweaks = () => {
+      if (maskTweakedRef.current) return;
+
+      const whiteOverlayTransform = "translateY(-30px) scale(1.1)";
+      const greenOverlayTransform = "translateY(-30px) scale(1.0)";
+
+      const candidates = Array.from(root.querySelectorAll("*")).filter((el) => {
+        const styleAttr = el.getAttribute("style") || "";
+        if (/clip-path\s*:/i.test(styleAttr)) return true;
+        if (el.tagName.toLowerCase() === "svg") return true;
+        return false;
+      });
+
+      const allSvgs = Array.from(root.querySelectorAll<SVGElement>("svg")).filter(
+        (svg) => {
+          const rect = svg.getBoundingClientRect();
+          return rect.width >= 200 && rect.height >= 200;
+        }
+      );
+
+      if (candidates.length === 0 && allSvgs.length === 0) return;
+
+      candidates.forEach((target) => {
+        const htmlTarget = target as HTMLElement;
+        htmlTarget.style.transformOrigin = "center";
+        htmlTarget.style.transform = whiteOverlayTransform;
+
+        const svg =
+          target instanceof SVGElement
+            ? target
+            : target.querySelector("svg");
+        if (!svg) return;
+
+        const strokeEls = svg.querySelectorAll<SVGElement>("[stroke]");
+        strokeEls.forEach((el) => {
+          const current = el.getAttribute("stroke-width");
+          if (!current) return;
+          const num = Number(current);
+          if (!Number.isFinite(num)) return;
+          el.setAttribute(
+            "stroke-width",
+            String(Math.max(1, Math.round(num * 0.75)))
+          );
+        });
+      });
+
+      allSvgs.forEach((svg) => {
+        const svgEl = svg as unknown as HTMLElement;
+        svgEl.style.transformOrigin = "center";
+        const hasGreenStroke =
+          !!svg.querySelector(
+            '[stroke="#00FF00"], [stroke="#00ff00"], [stroke="rgb(0,255,0)"], [stroke="rgb(0, 255, 0)"]'
+          );
+
+        svgEl.style.transform = hasGreenStroke
+          ? greenOverlayTransform
+          : whiteOverlayTransform;
+      });
+
+      const findSvgByStroke = (strokeSelectors: string[]) => {
+        for (const selector of strokeSelectors) {
+          const el = root.querySelector(`svg:has(${selector})`) as SVGElement | null;
+          if (el) return el;
+        }
+        for (const svg of allSvgs) {
+          for (const selector of strokeSelectors) {
+            if (svg.querySelector(selector)) return svg;
+          }
+        }
+        return null;
+      };
+
+      const whiteSvg = findSvgByStroke([
+        '[stroke="#FFFFFF"]',
+        '[stroke="#ffffff"]',
+        '[stroke="white"]',
+      ]);
+      const greenSvg = findSvgByStroke([
+        '[stroke="#00FF00"]',
+        '[stroke="#00ff00"]',
+        '[stroke="rgb(0,255,0)"]',
+        '[stroke="rgb(0, 255, 0)"]',
+      ]);
+
+      if (whiteSvg && greenSvg) {
+        const whiteRect = whiteSvg.getBoundingClientRect();
+        const greenRect = greenSvg.getBoundingClientRect();
+        if (greenRect.width > 0 && greenRect.height > 0) {
+          const widthRatio = whiteRect.width / greenRect.width;
+          const heightRatio = whiteRect.height / greenRect.height;
+          const ratio = (widthRatio + heightRatio) / 2;
+          const clamped = Math.max(0.9, Math.min(1.1, ratio));
+          const greenEl = greenSvg as unknown as HTMLElement;
+          greenEl.style.transformOrigin = "center";
+          greenEl.style.transform = `translateY(-30px) scale(${clamped.toFixed(3)})`;
+        }
+      }
+      maskTweakedRef.current = true;
+    };
+
+    applyMaskTweaks();
+
+    const observer = new MutationObserver(() => applyMaskTweaks());
+    observer.observe(root, { childList: true, subtree: true });
+    return () => observer.disconnect();
+  }, [isCamOpen]);
 
   return (
     <>

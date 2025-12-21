@@ -10,9 +10,9 @@ export const arCameraOptions = {
     type: "face",
     enabled: true,
     backgroundColor: "#000000",
-    backgroundOpacity: 0.7,
+    backgroundOpacity: 0,
     frameColor: "#FFFFFF",
-    frameThickness: 3,
+    frameThickness: 0,
   },
   faceDetection: {
     enabled: true,
@@ -23,8 +23,8 @@ export const arCameraOptions = {
     timeToCaptureFeedbackColor: "#00FF00",
   },
   backButton: {
-    enabled: true,
-    size: "50px",
+    enabled: false,
+    size: "44px",
     backgroundColor: "#FFFFFF",
     padding: "0",
     label: {
@@ -38,12 +38,12 @@ export const arCameraOptions = {
       enabled: true,
       source: "",
       color: "#000000",
-      size: "30px",
+      size: "26px",
     },
   },
   switchButton: {
-    enabled: true,
-    size: "50px",
+    enabled: false,
+    size: "44px",
     backgroundColor: "#FFFFFF",
     padding: "0",
     label: {
@@ -57,7 +57,7 @@ export const arCameraOptions = {
       enabled: true,
       source: "",
       color: "#000000",
-      size: "30px",
+      size: "26px",
     },
   },
   captureButton: {
@@ -121,16 +121,18 @@ export const arCameraOptions = {
     title: {
       enabled: true,
       content: "Selfie Capture",
-      fontSize: "22px",
+      fontSize: "30px",
       fontWeight: "700",
       color: "#FFFFFF",
+      paddingBottom: "8px",
     },
     subtitle: {
       enabled: true,
       content: "Fit your face on the space above",
-      fontSize: "16px",
-      fontWeight: "400",
-      color: "#FFFFFF",
+      fontSize: "20px", // Increased font size for better readability
+      fontWeight: "600",
+      color: "#ee8a06ff",
+      marginTop: "10px",
     },
   },
   loading: {
