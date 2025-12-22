@@ -1,19 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  camera,
-  faceDetectionAdapter,
-  loadFaceDetectorModels,
-} from "@biopassid/face-sdk";
-import { arCameraOptions } from "./config";
 import Button from "@mui/material/Button";
 import { Box, Grid, Typography, styled } from "@mui/material";
-import { APP_BAR_SIZE } from "@/utils/constants";
 import { Icon } from "@iconify/react";
+import * as faceapi from "face-api.js";
 
 const StyledCameraCapture = styled(Box)(({ theme }) => ({
-  padding: 10,
+  padding: 0,
   boxSizing: "border-box",
   overflow: "hidden",
+  position: "relative",
 }));
 
 const StyledARCameraComponent = styled(Box)(({ theme }) => ({
@@ -114,24 +109,47 @@ const ARCameraComponent = ({
   initializing,
   autoStart = false,
 }: ARCameraComponentProps) => {
-  const { takePicture } = camera();
   const [isCamOpen, setIsCamOpen] = useState<boolean>(false);
+  const [countdownSeconds, setCountdownSeconds] = useState<number | null>(null);
+  const [faceDetected, setFaceDetected] = useState<boolean>(false);
   const refAccessFiles = useRef<HTMLInputElement>(null);
   const hasAutoStartedRef = useRef(false);
-  const maskTweakedRef = useRef(false);
+  const faceDetectionIntervalRef = useRef<number | null>(null);
+  const countdownIntervalRef = useRef<number | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const isCapturingRef = useRef(false);
+
+  const stopCamera = () => {
+    try {
+      streamRef.current?.getTracks()?.forEach((t) => t.stop());
+    } catch {}
+    streamRef.current = null;
+    if (videoRef.current) {
+      try {
+        (videoRef.current as any).srcObject = null;
+      } catch {}
+    }
+  };
 
   async function handleTakePicture() {
+    if (isCamOpen) return;
     setIsCamOpen(true);
-    await loadFaceDetectorModels();
+    isCapturingRef.current = false;
     try {
-      const resp = await takePicture({
-        element: document.querySelector("#elementId") as HTMLDivElement,
-        faceDetectionAdapter: faceDetectionAdapter,
-        options: arCameraOptions,
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: {
+          facingMode: "user",
+        },
+        audio: false,
       });
-      onCaptured(resp?.base64);
-      setIsCamOpen(false);
+      streamRef.current = stream;
+      if (videoRef.current) {
+        (videoRef.current as any).srcObject = stream;
+        await videoRef.current.play();
+      }
     } catch (error) {
+      stopCamera();
       setIsCamOpen(false);
     }
   }
@@ -160,119 +178,121 @@ const ARCameraComponent = ({
 
   useEffect(() => {
     if (!isCamOpen) {
-      maskTweakedRef.current = false;
+      setCountdownSeconds(null);
+      setFaceDetected(false);
+
+      stopCamera();
+
+      if (faceDetectionIntervalRef.current !== null) {
+        window.clearInterval(faceDetectionIntervalRef.current);
+        faceDetectionIntervalRef.current = null;
+      }
+      if (countdownIntervalRef.current !== null) {
+        window.clearInterval(countdownIntervalRef.current);
+        countdownIntervalRef.current = null;
+      }
       return;
     }
 
-    const root = document.querySelector("#elementId") as HTMLDivElement | null;
-    if (!root) return;
-
-    const applyMaskTweaks = () => {
-      if (maskTweakedRef.current) return;
-
-      const whiteOverlayTransform = "translateY(-30px) scale(1.1)";
-      const greenOverlayTransform = "translateY(-30px) scale(1.0)";
-
-      const candidates = Array.from(root.querySelectorAll("*")).filter((el) => {
-        const styleAttr = el.getAttribute("style") || "";
-        if (/clip-path\s*:/i.test(styleAttr)) return true;
-        if (el.tagName.toLowerCase() === "svg") return true;
-        return false;
-      });
-
-      const allSvgs = Array.from(root.querySelectorAll<SVGElement>("svg")).filter(
-        (svg) => {
-          const rect = svg.getBoundingClientRect();
-          return rect.width >= 200 && rect.height >= 200;
+    const detectFace = async () => {
+      try {
+        const video = videoRef.current;
+        if (!video) {
+          setFaceDetected(false);
+          return;
         }
-      );
 
-      if (candidates.length === 0 && allSvgs.length === 0) return;
-
-      candidates.forEach((target) => {
-        const htmlTarget = target as HTMLElement;
-        htmlTarget.style.transformOrigin = "center";
-        htmlTarget.style.transform = whiteOverlayTransform;
-
-        const svg =
-          target instanceof SVGElement
-            ? target
-            : target.querySelector("svg");
-        if (!svg) return;
-
-        const strokeEls = svg.querySelectorAll<SVGElement>("[stroke]");
-        strokeEls.forEach((el) => {
-          const current = el.getAttribute("stroke-width");
-          if (!current) return;
-          const num = Number(current);
-          if (!Number.isFinite(num)) return;
-          el.setAttribute(
-            "stroke-width",
-            String(Math.max(1, Math.round(num * 0.75)))
-          );
-        });
-      });
-
-      allSvgs.forEach((svg) => {
-        const svgEl = svg as unknown as HTMLElement;
-        svgEl.style.transformOrigin = "center";
-        const hasGreenStroke =
-          !!svg.querySelector(
-            '[stroke="#00FF00"], [stroke="#00ff00"], [stroke="rgb(0,255,0)"], [stroke="rgb(0, 255, 0)"]'
-          );
-
-        svgEl.style.transform = hasGreenStroke
-          ? greenOverlayTransform
-          : whiteOverlayTransform;
-      });
-
-      const findSvgByStroke = (strokeSelectors: string[]) => {
-        for (const selector of strokeSelectors) {
-          const el = root.querySelector(`svg:has(${selector})`) as SVGElement | null;
-          if (el) return el;
+        if (video.readyState < 2) {
+          setFaceDetected(false);
+          return;
         }
-        for (const svg of allSvgs) {
-          for (const selector of strokeSelectors) {
-            if (svg.querySelector(selector)) return svg;
-          }
-        }
-        return null;
-      };
 
-      const whiteSvg = findSvgByStroke([
-        '[stroke="#FFFFFF"]',
-        '[stroke="#ffffff"]',
-        '[stroke="white"]',
-      ]);
-      const greenSvg = findSvgByStroke([
-        '[stroke="#00FF00"]',
-        '[stroke="#00ff00"]',
-        '[stroke="rgb(0,255,0)"]',
-        '[stroke="rgb(0, 255, 0)"]',
-      ]);
+        const detection = await faceapi.detectSingleFace(
+          video,
+          new faceapi.TinyFaceDetectorOptions({
+            scoreThreshold: 0.5,
+          })
+        );
 
-      if (whiteSvg && greenSvg) {
-        const whiteRect = whiteSvg.getBoundingClientRect();
-        const greenRect = greenSvg.getBoundingClientRect();
-        if (greenRect.width > 0 && greenRect.height > 0) {
-          const widthRatio = whiteRect.width / greenRect.width;
-          const heightRatio = whiteRect.height / greenRect.height;
-          const ratio = (widthRatio + heightRatio) / 2;
-          const clamped = Math.max(0.9, Math.min(1.1, ratio));
-          const greenEl = greenSvg as unknown as HTMLElement;
-          greenEl.style.transformOrigin = "center";
-          greenEl.style.transform = `translateY(-30px) scale(${clamped.toFixed(3)})`;
-        }
+        setFaceDetected(!!detection);
+      } catch {
+        setFaceDetected(false);
       }
-      maskTweakedRef.current = true;
     };
 
-    applyMaskTweaks();
+    detectFace();
+    faceDetectionIntervalRef.current = window.setInterval(detectFace, 250);
 
-    const observer = new MutationObserver(() => applyMaskTweaks());
-    observer.observe(root, { childList: true, subtree: true });
-    return () => observer.disconnect();
+    return () => {
+      if (faceDetectionIntervalRef.current !== null) {
+        window.clearInterval(faceDetectionIntervalRef.current);
+        faceDetectionIntervalRef.current = null;
+      }
+    };
   }, [isCamOpen]);
+
+  useEffect(() => {
+    if (!isCamOpen) return;
+
+    if (!faceDetected) {
+      setCountdownSeconds(null);
+      if (countdownIntervalRef.current !== null) {
+        window.clearInterval(countdownIntervalRef.current);
+        countdownIntervalRef.current = null;
+      }
+      return;
+    }
+
+    if (countdownIntervalRef.current !== null) return;
+
+    setCountdownSeconds(5);
+    countdownIntervalRef.current = window.setInterval(() => {
+      setCountdownSeconds((prev) => {
+        if (prev === null) return prev;
+        if (prev <= 1) return 0;
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => {
+      if (countdownIntervalRef.current !== null) {
+        window.clearInterval(countdownIntervalRef.current);
+        countdownIntervalRef.current = null;
+      }
+    };
+  }, [faceDetected, isCamOpen]);
+
+  useEffect(() => {
+    if (!isCamOpen) return;
+    if (!faceDetected) return;
+    if (countdownSeconds !== 0) return;
+    if (isCapturingRef.current) return;
+
+    const capture = async () => {
+      try {
+        isCapturingRef.current = true;
+        const video = videoRef.current;
+        if (!video) return;
+        const width = video.videoWidth;
+        const height = video.videoHeight;
+        if (!width || !height) return;
+
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+        ctx.drawImage(video, 0, 0, width, height);
+        const base64 = canvas.toDataURL("image/jpeg", 0.92);
+        onCaptured(base64 as any);
+        setIsCamOpen(false);
+      } finally {
+        isCapturingRef.current = false;
+      }
+    };
+
+    capture();
+  }, [countdownSeconds, faceDetected, isCamOpen, onCaptured]);
 
   return (
     <>
@@ -368,9 +388,62 @@ const ARCameraComponent = ({
       {isCamOpen && (
         <StyledCameraCapture
           component="div"
-          id="elementId"
           className="scanning-section"
-        ></StyledCameraCapture>
+          sx={{
+            m: 0,
+            borderRadius: 0,
+            height: "100dvh",
+          }}
+        >
+          <Box sx={{ width: "100%", height: "100%", position: "relative" }}>
+            <Box
+              component="video"
+              ref={videoRef}
+              muted
+              playsInline
+              autoPlay
+              sx={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                transform: "scaleX(-1)",
+                backgroundColor: "black",
+              }}
+            />
+          </Box>
+          {countdownSeconds !== null && countdownSeconds > 0 && (
+            <Box
+              sx={{
+                position: "absolute",
+                inset: 0,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                pointerEvents: "none",
+                zIndex: 2,
+              }}
+            >
+              <Box
+                sx={{
+                  width: 120,
+                  height: 120,
+                  borderRadius: "999px",
+                  backgroundColor: "rgba(0,0,0,0.45)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Typography
+                  variant="h2"
+                  sx={{ color: "white", fontWeight: 700, lineHeight: 1 }}
+                >
+                  {countdownSeconds}
+                </Typography>
+              </Box>
+            </Box>
+          )}
+        </StyledCameraCapture>
       )}
     </>
     // <StyledARCameraComponent>

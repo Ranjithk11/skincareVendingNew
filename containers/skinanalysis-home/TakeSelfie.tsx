@@ -29,6 +29,7 @@ import ARCameraComponent from "../../components/camera/ARCamera";
 import * as faceapi from "face-api.js";
 import SideMenuComponent from "@/views/home/selfie/SideMenu";
 import { Icon } from "@iconify/react";
+import PageBackground from "@/components/ui/PageBackground";
 
 const StyledTakeSelfie = styled(Container)(({ theme }) => ({
   flexGrow: 1,
@@ -587,185 +588,187 @@ const TakeSelfie = () => {
   }, [croppedFace]);
 
   return (
-    <StyledTakeSelfie disableGutters maxWidth="xl">
-      {/* {isUpMdDevice && <SideMenuComponent />} */}
+    <PageBackground showGreenCurve>
+      <StyledTakeSelfie disableGutters maxWidth="xl">
+        {/* {isUpMdDevice && <SideMenuComponent />} */}
 
-      {!openCamera && (
-        <Box
-          // style={{ backgroundImage: `url(/images/homeBg_1.png)` }}
-          component="div"
-          className="photo-wrapper"
-        >
-          {(isImageUploading ||
-            (isLoadingImageInfo && !dataImageInfo?.data?.url)) && (
-            <LoadingComponent />
-          )}
-          {!isImageUploading &&
-            !isLoadingImageInfo &&
-            dataImageInfo?.data?.url && (
-              <Fragment>
-                <Box
-                  sx={{ backgroundImage: `url(${dataImageInfo?.data?.url})` }}
-                  component="div"
-                  className="selfy_image"
-                >
-                  <Card component="div" className="camera_icon">
-                    <IconButton
-                      onClick={() => {
-                        setSkinAttributeStatus(null);
-                        setOpenCamera(true);
-                      }}
-                      color="primary"
-                    >
-                      <Icon width={20} icon="bxs:camera" />
-                    </IconButton>
-                  </Card>
-                  {skinAttributeStatus?.type === "ERROR" && (
-                    <Box component="div" className="errorInfo">
-                      <Icon width={55} color="white" icon="bx:error" />
-                      <Typography variant="body1" textAlign="center">
-                        {skinAttributeStatus?.message}
-                      </Typography>
-                      <Button
-                        size="small"
-                        color="milkWhite"
-                        variant="outlined"
-                        sx={{ minWidth: 50 }}
-                        fullWidth={false}
-                        onClick={() => setSkinAttributeStatus(null)}
+        {!openCamera && (
+          <Box
+            // style={{ backgroundImage: `url(/images/homeBg_1.png)` }}
+            component="div"
+            className="photo-wrapper"
+          >
+            {(isImageUploading ||
+              (isLoadingImageInfo && !dataImageInfo?.data?.url)) && (
+              <LoadingComponent />
+            )}
+            {!isImageUploading &&
+              !isLoadingImageInfo &&
+              dataImageInfo?.data?.url && (
+                <Fragment>
+                  <Box
+                    sx={{ backgroundImage: `url(${dataImageInfo?.data?.url})` }}
+                    component="div"
+                    className="selfy_image"
+                  >
+                    <Card component="div" className="camera_icon">
+                      <IconButton
+                        onClick={() => {
+                          setSkinAttributeStatus(null);
+                          setOpenCamera(true);
+                        }}
+                        color="primary"
                       >
-                        Ok
+                        <Icon width={20} icon="bxs:camera" />
+                      </IconButton>
+                    </Card>
+                    {skinAttributeStatus?.type === "ERROR" && (
+                      <Box component="div" className="errorInfo">
+                        <Icon width={55} color="white" icon="bx:error" />
+                        <Typography variant="body1" textAlign="center">
+                          {skinAttributeStatus?.message}
+                        </Typography>
+                        <Button
+                          size="small"
+                          color="milkWhite"
+                          variant="outlined"
+                          sx={{ minWidth: 50 }}
+                          fullWidth={false}
+                          onClick={() => setSkinAttributeStatus(null)}
+                        >
+                          Ok
+                        </Button>
+                      </Box>
+                    )}
+                    {skinAttributeStatus?.type === "SUCCESS" && (
+                      <Box component="div" className="successInfo">
+                        <Icon
+                          width={55}
+                          color="white"
+                          icon="clarity:success-standard-line"
+                        />
+                        <Typography variant="body1" textAlign="center">
+                          {skinAttributeStatus?.message}
+                        </Typography>
+                        {/* <Button
+                          size="small"
+                          color="milkWhite"
+                          variant="outlined"
+                          sx={{ minWidth: 50 }}
+                          fullWidth={false}
+                          onClick={() => setSkinAttributeStatus(null)}
+                        >
+                          Ok
+                        </Button> */}
+                      </Box>
+                    )}
+                    {isLoadingSkinAttributes && (
+                      <div className="ocrloader">
+                        <p>Analysing...</p>
+                        <em></em>
+                        <span></span>
+                      </div>
+                    )}
+                  </Box>
+                  {!isLoadingSkinAttributes && (
+                    <Box
+                      mt={3}
+                      sx={{
+                        width: "clamp(360px, 70vw, 720px)",
+                        mx: "auto",
+                      }}
+                    >
+                      <Box mb={2}>
+                        <SelectInputFieldComponent
+                          id="skintype"
+                          name="skinType"
+                          displayLabelName="name"
+                          targetValue="_id"
+                          control={control}
+                          defaultValue="NORMAL_SKIN"
+                          label=""
+                          options={skinTypes}
+                        />
+                      </Box>
+                      <Button
+                        color={
+                          skinAttributeStatus?.type === "SUCCESS"
+                            ? "primary"
+                            : "secondary"
+                        }
+                        fullWidth
+                        onClick={() => {
+                          if (skinAttributeStatus?.type === "SUCCESS") {
+                            handleGetSkinRecommendations();
+                          } else {
+                            handleSkinAnalysis();
+                          }
+                        }}
+                      >
+                        {skinAttributeStatus?.type === "SUCCESS"
+                          ? "Get Our Recommendations"
+                          : "Start Skin Analysis"}
                       </Button>
                     </Box>
                   )}
-                  {skinAttributeStatus?.type === "SUCCESS" && (
-                    <Box component="div" className="successInfo">
-                      <Icon
-                        width={55}
-                        color="white"
-                        icon="clarity:success-standard-line"
-                      />
-                      <Typography variant="body1" textAlign="center">
-                        {skinAttributeStatus?.message}
-                      </Typography>
-                      {/* <Button
-                        size="small"
-                        color="milkWhite"
-                        variant="outlined"
-                        sx={{ minWidth: 50 }}
-                        fullWidth={false}
-                        onClick={() => setSkinAttributeStatus(null)}
-                      >
-                        Ok
-                      </Button> */}
-                    </Box>
-                  )}
-                  {isLoadingSkinAttributes && (
-                    <div className="ocrloader">
-                      <p>Analysing...</p>
-                      <em></em>
-                      <span></span>
-                    </div>
-                  )}
-                </Box>
-                {!isLoadingSkinAttributes && (
-                  <Box
-                    mt={3}
-                    sx={{
-                      width: "clamp(360px, 70vw, 720px)",
-                      mx: "auto",
+                </Fragment>
+              )}
+            {!isImageUploading &&
+              !isLoadingImageInfo &&
+              !dataImageInfo?.data?.url && (
+                <Fragment>
+                  <IconButton
+                    onClick={() => {
+                      setOpenCamera(true);
                     }}
                   >
-                    <Box mb={2}>
-                      <SelectInputFieldComponent
-                        id="skintype"
-                        name="skinType"
-                        displayLabelName="name"
-                        targetValue="_id"
-                        control={control}
-                        defaultValue="NORMAL_SKIN"
-                        label=""
-                        options={skinTypes}
-                      />
-                    </Box>
-                    <Button
-                      color={
-                        skinAttributeStatus?.type === "SUCCESS"
-                          ? "primary"
-                          : "secondary"
-                      }
-                      fullWidth
-                      onClick={() => {
-                        if (skinAttributeStatus?.type === "SUCCESS") {
-                          handleGetSkinRecommendations();
-                        } else {
-                          handleSkinAnalysis();
-                        }
-                      }}
-                    >
-                      {skinAttributeStatus?.type === "SUCCESS"
-                        ? "Get Our Recommendations"
-                        : "Start Skin Analysis"}
-                    </Button>
-                  </Box>
-                )}
-              </Fragment>
-            )}
-          {!isImageUploading &&
-            !isLoadingImageInfo &&
-            !dataImageInfo?.data?.url && (
-              <Fragment>
-                <IconButton
-                  onClick={() => {
-                    setOpenCamera(true);
-                  }}
-                >
-                  <Icon width={100} icon="bxs:camera" />
-                </IconButton>
-                <Typography textAlign="center">
-                  Click camera icon and take selfie
-                </Typography>
-              </Fragment>
-            )}
-        </Box>
-      )}
-      {openCamera && (
-        <ARCameraComponent
-          autoStart={true}
-          initializing={initializing}
-          disabledSkipBtn={!dataImageInfo}
-          onSkip={() => {
-            setOpenCamera(!openCamera);
-          }}
-          onCaptured={handleAutoCaptured}
-        />
-      )}
-      {image && (
-        <div hidden={true} className="image-container">
-          {image && (
-            <div hidden={true} className="original-image">
-              <h3 hidden={true}>Original Image</h3>
-              <div style={{ position: "relative" }}>
-                <img
-                  ref={imageRef}
-                  src={image}
-                  alt="Original"
-                  onLoad={processImage}
-                />
-                <canvas
-                  ref={canvasRef}
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                  }}
-                />
+                    <Icon width={100} icon="bxs:camera" />
+                  </IconButton>
+                  <Typography textAlign="center">
+                    Click camera icon and take selfie
+                  </Typography>
+                </Fragment>
+              )}
+          </Box>
+        )}
+        {openCamera && (
+          <ARCameraComponent
+            autoStart={true}
+            initializing={initializing}
+            disabledSkipBtn={!dataImageInfo}
+            onSkip={() => {
+              setOpenCamera(!openCamera);
+            }}
+            onCaptured={handleAutoCaptured}
+          />
+        )}
+        {image && (
+          <div hidden={true} className="image-container">
+            {image && (
+              <div hidden={true} className="original-image">
+                <h3 hidden={true}>Original Image</h3>
+                <div style={{ position: "relative" }}>
+                  <img
+                    ref={imageRef}
+                    src={image}
+                    alt="Original"
+                    onLoad={processImage}
+                  />
+                  <canvas
+                    ref={canvasRef}
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                    }}
+                  />
+                </div>
               </div>
-            </div>
-          )}
-        </div>
-      )}
-    </StyledTakeSelfie>
+            )}
+          </div>
+        )}
+      </StyledTakeSelfie>
+    </PageBackground>
   );
 };
 

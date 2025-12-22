@@ -10,7 +10,6 @@ import {
     useMediaQuery,
     useTheme,
 } from "@mui/material";
-import Image from "next/image";
 import { Icon } from "@iconify/react";
 import { capitalizeWords } from "@/utils/func";
 import { useCart } from "./CartContext";
@@ -67,18 +66,22 @@ const CartProduct: React.FC<CartProductProps> = ({ open, onClose, onCheckout }) 
             fullScreen={isMobile}
             open={open}
             onClose={onClose}
+            fullWidth
+            maxWidth={false}
             PaperProps={{
                 sx: {
-                    width: "100%",
-                    maxWidth: "100%",
-                    height: "100%",
-                    borderRadius: isMobile ? 0 : 3,
+                    width: isMobile ? "100%" : "100vw",
+                    maxWidth: "100vw",
+                    height: isMobile ? "100%" : "100dvh",
+                    maxHeight: "100dvh",
+                    m: 0,
+                    borderRadius: isMobile ? 0 : 0,
                     overflow: "hidden",
                     bgcolor: "#f8f6f0",
                 },
             }}
         >
-            <Box sx={{ display: "flex", flexDirection: "column", height: "150%" }}>
+            <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
                 <Box
                     sx={{
                         px: 2,
@@ -86,24 +89,52 @@ const CartProduct: React.FC<CartProductProps> = ({ open, onClose, onCheckout }) 
                         bgcolor: "#fff",
                         display: "flex",
                         alignItems: "center",
-                        gap: 1,
-                        height: "80px",
+                        gap: 2,
+                        height: "180px",
                     }}
                 >
-                    <IconButton onClick={handleBack} size="small" sx={{ border: "1px solid rgba(0,0,0,0.12)" }}>
-                        <Icon icon="mdi:arrow-left" />
+                    <IconButton
+                        onClick={handleBack}
+                        sx={{
+                            border: "1px solid rgba(0,0,0,0.12)",
+                            width: isMobile ? 64 : 72,
+                            height: isMobile ? 80 : 80,
+                            borderRadius: "999px",
+                        }}
+                    >
+                        <Icon icon="mdi:arrow-left" width={isMobile ? 30 : 34} height={isMobile ? 30 : 34} />
                     </IconButton>
-                    <Typography sx={{
-                        mt: 2,
-                        mb: 0.75,
-                        fontFamily: '"SF Pro Display", "SF Pro", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif',
-                        fontWeight: 510,
-                        fontSize: "40px",
-                        lineHeight: "100%",
-                        letterSpacing: "0%",
-                    }}>
-                        {step === "cart" ? `My Cart (${items.length})` : "Checkout"}
-                    </Typography>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "center",
+                            alignItems: "flex-start",
+                            minWidth: 0,
+                        }}
+                    >
+                        <Box
+                            component="img"
+                            src="/wending/goldlog.svg"
+                            alt="Leaf Water"
+                            sx={{ height: isMobile ? 36 : 50, width: "auto", display: "block", mb: 0.25 }}
+                        />
+                        <Typography
+                            sx={{
+                                fontFamily:
+                                    '"SF Pro Display", "SF Pro", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif',
+                                fontWeight: 510,
+                                fontSize: isMobile ? 34 : 46,
+                                lineHeight: "100%",
+                                letterSpacing: "0%",
+                                whiteSpace: "nowrap",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                            }}
+                        >
+                            {step === "cart" ? `My Cart (${items.length})` : "Checkout"}
+                        </Typography>
+                    </Box>
                 </Box>
 
                 <Box sx={{ flex: 1, overflowY: "auto", px: 2, py: 2 }}>
@@ -131,12 +162,16 @@ const CartProduct: React.FC<CartProductProps> = ({ open, onClose, onCheckout }) 
                                                     }}
                                                 >
                                                     {it.imageUrl ? (
-                                                        <Image
+                                                        <Box
+                                                            component="img"
                                                             src={it.imageUrl}
                                                             alt={it.name}
-                                                            fill
-                                                            sizes="50px"
-                                                            style={{ objectFit: "contain" }}
+                                                            sx={{
+                                                                width: "100%",
+                                                                height: "100%",
+                                                                objectFit: "contain",
+                                                                display: "block",
+                                                            }}
                                                         />
                                                     ) : null}
                                                 </Box>
@@ -242,12 +277,16 @@ const CartProduct: React.FC<CartProductProps> = ({ open, onClose, onCheckout }) 
                                             }}
                                         >
                                             {item.imageUrl ? (
-                                                <Image
+                                                <Box
+                                                    component="img"
                                                     src={item.imageUrl}
                                                     alt={item.name}
-                                                    fill
-                                                    sizes="92px"
-                                                    style={{ objectFit: "contain" }}
+                                                    sx={{
+                                                        width: "100%",
+                                                        height: "100%",
+                                                        objectFit: "contain",
+                                                        display: "block",
+                                                    }}
                                                 />
                                             ) : null}
                                         </Box>

@@ -3,7 +3,6 @@ import { API_ROUTES } from "../routes/apiRoutes";
 import { Session, User } from "next-auth";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import inititBaseQuery from "../baseQuery/baseQuery";
-import { subDomain } from "@/utils/constants";
 
 interface UserLoginPayload {
   phoneNumber: string;
@@ -20,7 +19,7 @@ export const loginUser = async (
   input: string,
   inputType: "phoneNumber" | "email"
 ) => {
-  const dbToken = process.env.NEXT_PUBLIC_DB_TOKEN || subDomain?._id;
+  const dbToken = process.env.NEXT_PUBLIC_DB_TOKEN;
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}${API_ROUTES.USER_LOGIN}`,
     {
@@ -40,7 +39,7 @@ export const loginUser = async (
 };
 
 export const saveUser = async (payload: UserLoginPayload) => {
-  const dbToken = process.env.NEXT_PUBLIC_DB_TOKEN || subDomain?._id;
+  const dbToken = process.env.NEXT_PUBLIC_DB_TOKEN;
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}${API_ROUTES.SAVE_USER}`,
     {

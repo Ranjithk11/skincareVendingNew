@@ -133,12 +133,12 @@ export default function VendingProducts({ data }: Props) {
                   width: "100%",
                   ...(isDesktop
                     ? {
-                      maxWidth: "100%",
-                      height: "auto",
+                      maxWidth: 650,
+                      minHeight: 380,
                     }
                     : {
-                      maxWidth: 500,
-                      height: 300,
+                      maxWidth: 650,
+                      height: 340,
                     }),
                 }}
               />

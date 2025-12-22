@@ -1,4 +1,3 @@
-import { subDomain } from "@/utils/constants";
 import { FetchBaseQueryArgs } from "@reduxjs/toolkit/dist/query/fetchBaseQuery";
 import { fetchBaseQuery } from "@reduxjs/toolkit/query";
 
@@ -14,7 +13,7 @@ const addTokenToRequest = async (headers: any, { getState }: any) => {
 //     console.log(session?.user?.token);
 //     headers.set("Authorization", `Bearer ${session.user.token}`);
 //   }
-  const dbToken = process.env.NEXT_PUBLIC_DB_TOKEN || subDomain?._id;
+  const dbToken = process.env.NEXT_PUBLIC_DB_TOKEN;
   if (dbToken) {
     headers.set("x-db-token", dbToken);
   }

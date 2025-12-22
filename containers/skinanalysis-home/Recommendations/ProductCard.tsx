@@ -146,8 +146,8 @@ const StyledProductCard = styled(Card, {
 );
 
 const StyledCtaDialogModel = styled(Box)(({ theme }) => ({
-  width: 600,
-  height: 300,
+  width: 650,
+  height: 350,
   position: "relative",
   display: "flex",
   flexDirection: "column",
@@ -193,8 +193,13 @@ const ProductCard = ({
   const showHorizontal = (horizontalLayout || (isDesktop && !compact)) && !minWidth;
   const [openCTA, setOpenCTA] = useState<boolean>(false);
   const [openBuyNow, setOpenBuyNow] = useState<boolean>(false);
-  const handleAddToCart = () => {
-    window.open(shopifyUrl);
+  const handleCardClick = () => {
+    if (enabledMask) return;
+    if (shopifyUrl) {
+      setOpenBuyNow(true);
+    } else {
+      setOpenCTA(true);
+    }
   };
 
   const handleOpenBuyNow = (e: React.MouseEvent) => {
@@ -232,9 +237,9 @@ const ProductCard = ({
     <StyledProductCard
       enabledMask={enabledMask}
       minWidth={minWidth}
-      onClick={handleAddToCart}
+      onClick={handleCardClick}
       sx={{
-        cursor: "pointer",
+        cursor: "default",
         ...(showHorizontal
           ? {
               p: 2,
@@ -244,8 +249,8 @@ const ProductCard = ({
               alignItems: "center",
               gap: 2,
               "& .product_image": {
-                width: 120,
-                minWidth: 120,
+                width: 80,
+                minWidth: 80,
                 height: 350,
                 marginBottom: 0,
                 padding: 8,
@@ -288,7 +293,7 @@ const ProductCard = ({
               },
             }
           : null),
-        ...(!showHorizontal && !compact ? { borderRadius: 2 } : null),
+        ...(!showHorizontal && !compact ? { borderRadius: 2, minHeight: 400 } : null),
         ...(cardSx || {}),
       }}
     >
@@ -315,7 +320,7 @@ const ProductCard = ({
             <Typography
               color="primary"
               sx={() => ({
-                fontWeight: 700,
+                fontWeight: 600,
               })}
               variant="subtitle1"
             >

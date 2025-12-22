@@ -8,7 +8,7 @@ export const arCameraOptions = {
   },
   mask: {
     type: "face",
-    enabled: true,
+    enabled: false,
     backgroundColor: "#000000",
     backgroundOpacity: 0,
     frameColor: "#FFFFFF",
@@ -17,10 +17,10 @@ export const arCameraOptions = {
   faceDetection: {
     enabled: true,
     autoCapture: true,
-    timeToCapture: 6000,
+    timeToCapture: 5000,
     multipleFacesEnabled: false,
     scoreThreshold: 0.7,
-    timeToCaptureFeedbackColor: "#00FF00",
+    timeToCaptureFeedbackColor: "transparent",
   },
   backButton: {
     enabled: false,
@@ -119,7 +119,7 @@ export const arCameraOptions = {
   },
   legend: {
     title: {
-      enabled: true,
+      enabled: false,
       content: "Selfie Capture",
       fontSize: "30px",
       fontWeight: "700",
@@ -127,7 +127,7 @@ export const arCameraOptions = {
       paddingBottom: "8px",
     },
     subtitle: {
-      enabled: true,
+      enabled: false,
       content: "Fit your face on the space above",
       fontSize: "20px", // Increased font size for better readability
       fontWeight: "600",

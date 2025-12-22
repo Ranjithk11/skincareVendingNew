@@ -4,7 +4,7 @@ import {
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import { styled, useTheme } from "@mui/material/styles";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { APP_ROUTES } from "@/utils/routes";
@@ -17,6 +17,7 @@ import CoverBottomHalf from "./CoverBottomHalf";
 import TopLogo from "./TopLogo";
 import { CartProvider, useCart } from "./CartContext";
 import CartProduct from "./cartProduct";
+import { useGetUploadImageInfoMutation } from "@/redux/api/analysisApi";
 
 const StyledCoverWrapper = styled(Box)(({ theme }) => ({
   width: "100%",
@@ -322,6 +323,29 @@ const CoverInner: React.FC<CoverPageProps> = ({
   );
   const { count: cartCount } = useCart();
   const [openCart, setOpenCart] = useState(false);
+    const [
+      getUploadImageInfo,
+      { data: dataImageInfo, isLoading: isLoadingImageInfo },
+    ] = useGetUploadImageInfoMutation();
+
+  useEffect(() => {
+    const userId =
+      analysisData?.data?.[0]?.userId ||
+      analysisData?.data?.userId ||
+      analysisData?.productRecommendation?.userId;
+
+    const fileName =
+      analysisData?.data?.[0]?.analysedImages?.[0]?.fileName ||
+      analysisData?.data?.analysedImages?.[0]?.fileName ||
+      analysisData?.productRecommendation?.analysedImages?.[0]?.fileName;
+
+    if (!userId || !fileName) return;
+
+    getUploadImageInfo({
+      userId,
+      fileName,
+    });
+  }, [analysisData, getUploadImageInfo]);
 
   const reportSource =
     analysisData?.data?.[0] ||
@@ -450,7 +474,7 @@ const CoverInner: React.FC<CoverPageProps> = ({
       imageSrc: "/wending/uneven.svg",
     },
   ];
-
+ 
   return (
     <>
       <Box
@@ -534,13 +558,19 @@ const CoverInner: React.FC<CoverPageProps> = ({
                 />
               </Box>
 
-              {useData?.data?.url && (
-                <Image
-                  src={useData?.data?.url}
+              {dataImageInfo?.data?.url && (
+                <Box
+                  component="img"
+                  src={dataImageInfo?.data?.url}
                   alt="User Image"
-                  fill
-                  sizes="100vw"
-                  style={{ objectFit: "cover" }}
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    display: "block",
+                  }}
                 />
               )}
             </Box>
