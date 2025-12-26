@@ -45,7 +45,7 @@ const PillToggle = <T extends string | number>({
                 cursor: "pointer",
                 userSelect: "none",
                 fontFamily:
-                  '"SF Pro Display", "SF Pro", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif',
+                  'Roboto, system-ui, -apple-system, "Segoe UI", Arial, sans-serif',
                 fontWeight: 400,
                 fontSize: "26px",
                 lineHeight: "100%",

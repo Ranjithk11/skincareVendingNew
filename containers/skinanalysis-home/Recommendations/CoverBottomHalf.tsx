@@ -81,7 +81,7 @@ const CoverBottomHalf: React.FC<CoverBottomHalfProps> = ({
                 sx={{
                     mt: 2.5,
                     mb: 0.75,
-                    fontFamily: '"SF Pro Display", "SF Pro", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif',
+                    fontFamily: 'Roboto, system-ui, -apple-system, "Segoe UI", Arial, sans-serif',
                     fontWeight: 510,
                     fontSize: "40px",
                     lineHeight: "100%",
@@ -205,8 +205,7 @@ const CoverBottomHalf: React.FC<CoverBottomHalfProps> = ({
                                     display: "flex",
                                     alignItems: "center",
                                     justifyContent: "center",
-                                    fontFamily:
-                                        '"SF Pro Display", "SF Pro", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif',
+                                    fontFamily: 'Roboto, system-ui, -apple-system, "Segoe UI", Arial, sans-serif',
                                     fontWeight: 510,
                                     fontSize: { xs: 24, md: 28 },
                                     color: "#111827",
@@ -290,7 +289,7 @@ const CoverBottomHalf: React.FC<CoverBottomHalfProps> = ({
                         <Typography sx={{
                             mt: 2.5,
                             mb: 0.75,
-                            fontFamily: '"SF Pro Display", "SF Pro", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif',
+                            fontFamily: 'Roboto, system-ui, -apple-system, "Segoe UI", Arial, sans-serif',
                             fontWeight: 510,
                             fontSize: "40px",
                             lineHeight: "100%",

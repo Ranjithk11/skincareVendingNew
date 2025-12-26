@@ -340,7 +340,7 @@ export default function SkincareRoutinePage() {
             <Typography sx={{
               mt: 2.5,
               mb: 0.75,
-              fontFamily: '"SF Pro Display", "SF Pro", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif',
+              fontFamily: 'Roboto, system-ui, -apple-system, "Segoe UI", Arial, sans-serif',
               fontWeight: 510,
               fontSize: "40px",
               lineHeight: "100%",
@@ -409,7 +409,7 @@ export default function SkincareRoutinePage() {
                 mt: 2,
                 mb: 2.5,
                 fontSize: { xs: 12, sm: 16 },
-                fontStyle: "SF Pro Display",
+                fontStyle: "normal",
                 color: "#000",
               }}>
                 {s.subtitle}

@@ -41,7 +41,6 @@ export default function LandingTopSection({
         <Typography
           component="h1"
           sx={{
-            fontFamily: "SF Pro",
             fontWeight: 510,
             color: "#000000",
             lineHeight: "100%",
@@ -56,7 +55,6 @@ export default function LandingTopSection({
         </Typography>
         <Typography
           sx={{
-            fontFamily: "SF Pro",
             fontWeight: 400,
             color: "#4a4a4a",
             lineHeight: "100%",
@@ -87,7 +85,6 @@ export default function LandingTopSection({
       >
         <Typography
           sx={{
-            fontFamily: "SF Pro",
             fontWeight: 510,
             fontStyle: "normal",
             fontSize: "30px",

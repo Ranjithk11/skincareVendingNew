@@ -53,7 +53,7 @@ export default function Slide2({
           <Typography
             component="h1"
             sx={{
-              fontFamily: "SF Pro",
+              fontFamily: "Roboto",
               fontWeight: 510,
               fontStyle: "normal",
               color: "#1a1a1a",
@@ -68,7 +68,7 @@ export default function Slide2({
           </Typography>
           <Typography
             sx={{
-              fontFamily: "SF Pro",
+              fontFamily: "Roboto",
               fontWeight: 400,
               fontStyle: "normal",
               color: "#6b7280",
@@ -130,7 +130,7 @@ export default function Slide2({
                 <Box>
                   <Typography
                     sx={{
-                      fontFamily: "SF Pro",
+                      fontFamily: "Roboto",
                       fontWeight: 510,
                       fontStyle: "normal",
                       color: "#1a1a1a",
@@ -144,7 +144,7 @@ export default function Slide2({
                   </Typography>
                   <Typography
                     sx={{
-                      fontFamily: "SF Pro",
+                      fontFamily: "Roboto",
                       fontWeight: 400,
                       fontStyle: "normal",
                       color: "#6b7280",

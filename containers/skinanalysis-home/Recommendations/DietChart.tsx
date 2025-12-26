@@ -99,7 +99,7 @@ export default function DietChart({ data }: DietChartProps) {
         <Typography sx={{
           mt: 2.5,
           mb: 0.75,
-          fontFamily: '"SF Pro Display", "SF Pro", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif',
+          fontFamily: 'Roboto, system-ui, -apple-system, "Segoe UI", Arial, sans-serif',
           fontWeight: 510,
           fontSize: "40px",
           lineHeight: "100%",
@@ -124,7 +124,7 @@ export default function DietChart({ data }: DietChartProps) {
           <Box display="flex" alignItems="center" mb={0.5}>
             <Typography sx={{
               mb: 0.75,
-              fontFamily: '"SF Pro Display", "SF Pro", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif',
+              fontFamily: 'Roboto, system-ui, -apple-system, "Segoe UI", Arial, sans-serif',
               fontWeight: 700,
               fontSize: "20px",
               lineHeight: "100%",
@@ -158,7 +158,7 @@ export default function DietChart({ data }: DietChartProps) {
           <Box display="flex" alignItems="center" mb={0.5}>
             <Typography sx={{
               mb: 0.75,
-              fontFamily: '"SF Pro Display", "SF Pro", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif',
+              fontFamily: 'Roboto, system-ui, -apple-system, "Segoe UI", Arial, sans-serif',
               fontWeight: 700,
               fontSize: "20px",
               lineHeight: "100%",
@@ -191,7 +191,7 @@ export default function DietChart({ data }: DietChartProps) {
           <Box display="flex" alignItems="center" mb={0.5}>
             <Typography sx={{
               mb: 0.75,
-              fontFamily: '"SF Pro Display", "SF Pro", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif',
+              fontFamily: 'Roboto, system-ui, -apple-system, "Segoe UI", Arial, sans-serif',
               fontWeight: 700,
               fontSize: "20px",
               lineHeight: "100%",

@@ -48,7 +48,6 @@ export default function FeatureCard({
         <Typography
           sx={{
             color: "#FFFFFF",
-            fontFamily: "SF Pro",
             fontWeight: 200,
             fontStyle: "normal",
             fontSize: "20px",
@@ -63,7 +62,6 @@ export default function FeatureCard({
         </Typography>
         <Typography
           sx={{
-            fontFamily: "SF Pro",
             fontWeight: 300,
             fontStyle: "normal",
             fontSize: "30px",
@@ -77,7 +75,6 @@ export default function FeatureCard({
         <Typography
           sx={{
             color: "#FFFFFF",
-            fontFamily: "SF Pro",
             fontWeight: 200,
             fontStyle: "normal",
             fontSize: "20px",

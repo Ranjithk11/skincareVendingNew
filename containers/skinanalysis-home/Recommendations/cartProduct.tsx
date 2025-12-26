@@ -122,7 +122,7 @@ const CartProduct: React.FC<CartProductProps> = ({ open, onClose, onCheckout }) 
                         <Typography
                             sx={{
                                 fontFamily:
-                                    '"SF Pro Display", "SF Pro", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif',
+                                    'Roboto, system-ui, -apple-system, "Segoe UI", Arial, sans-serif',
                                 fontWeight: 510,
                                 fontSize: isMobile ? 34 : 46,
                                 lineHeight: "100%",
@@ -381,11 +381,14 @@ const CartProduct: React.FC<CartProductProps> = ({ open, onClose, onCheckout }) 
                             <Typography sx={{
                                 mt: 2,
                                 mb: 0.75,
-                                fontFamily: '"SF Pro Display", "SF Pro", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif',
+                                fontFamily: 'Roboto, system-ui, -apple-system, "Segoe UI", Arial, sans-serif',
                                 fontWeight: 510,
                                 fontSize: "24px",
                                 lineHeight: "100%",
-                            }}>Your Cart total</Typography>
+                                letterSpacing: "0%",
+                            }}>
+                                Your Cart total
+                            </Typography>
                             <Typography
                                 role="button"
                                 tabIndex={0}
@@ -474,7 +477,7 @@ const CartProduct: React.FC<CartProductProps> = ({ open, onClose, onCheckout }) 
                         sx={{
                             mt: 2,
                             mb: 0.75,
-                            fontFamily: '"SF Pro Display", "SF Pro", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif',
+                            fontFamily: 'Roboto, system-ui, -apple-system, "Segoe UI", Arial, sans-serif',
                             fontWeight: 510,
                             fontSize: "24px",
                             lineHeight: "100%",
