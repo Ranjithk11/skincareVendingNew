@@ -48,13 +48,14 @@ const ServiceCard = ({ item }: { item: any }) => {
         }}
       >
         <Box sx={{ minWidth: 0 }}>
-          <Typography sx={{ fontWeight: 800, fontSize: { xs: 14, md: 16 }, color: "#111827" }}>
+          <Typography sx={{ fontWeight: 800, fontSize: "24px", color: "#111827" }}>
             {item?.name}
           </Typography>
           <Typography
             sx={{
               mt: 0.75,
-              fontSize: { xs: 12, md: 12 },
+              fontSize: "18px",
+              fontWeight: 400,
               color: "#6b7280",
               overflow: "hidden",
               textOverflow: "ellipsis",
@@ -66,7 +67,7 @@ const ServiceCard = ({ item }: { item: any }) => {
             {item?.description || ""}
           </Typography>
 
-          <Typography sx={{ mt: 1.25, fontWeight: 900, fontSize: { xs: 12, md: 14 }, color: "#111827" }}>
+          <Typography sx={{ mt: 1.25, fontWeight: 700, fontSize:"24px", color: "#111827" }}>
             INR. {item?.price}/-
           </Typography>
         </Box>
@@ -104,10 +105,10 @@ export default function VendingServices({ salonServices, cosmeticServices }: Pro
 
   return (
     <Box sx={{ width: "100%" }}>
-      <Typography sx={{ fontWeight: 800, fontSize: 35, mt: 4, mb: 2 }}>
+      <Typography sx={{ fontWeight: 800, fontSize: 36, mt: 4, mb: 2 }}>
         My Skincare Services
       </Typography>
-      <Typography sx={{ fontSize: 18, color: "#000" }}>
+      <Typography sx={{ fontSize: "24px",fontWeight:400, color: "#000" }}>
         WHAT WE RECOMMEND
       </Typography>
 
@@ -144,7 +145,7 @@ export default function VendingServices({ salonServices, cosmeticServices }: Pro
               sx={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
           </Box>
-          <Typography sx={{ mt: 0.75, fontSize: 20, fontWeight: 700 }}>
+          <Typography sx={{ mt: 0.75, fontSize: "24px", fontWeight: 500 }}>
             Salon
           </Typography>
         </Box>
@@ -181,7 +182,7 @@ export default function VendingServices({ salonServices, cosmeticServices }: Pro
               sx={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
           </Box>
-          <Typography sx={{ mt: 0.75, fontSize: 20, fontWeight: 700 }}>
+          <Typography sx={{ mt: 0.75, fontSize: "24px", fontWeight: 500 }}>
             Cosmetic
           </Typography>
         </Box>

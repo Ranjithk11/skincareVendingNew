@@ -94,8 +94,9 @@ const CoverBottomHalf: React.FC<CoverBottomHalfProps> = ({
                 sx={{
                     mt: 2,
                     mb: 2.5,
-                    fontSize: { xs: 14, sm: 18 },
+                    fontSize: "24px",
                     color: "#000",
+                    fontWeight: 400,
                     
                 }}
             >
@@ -141,7 +142,7 @@ const CoverBottomHalf: React.FC<CoverBottomHalfProps> = ({
                                 >
                                     <Typography
                                         sx={{
-                                            fontSize: { xs: 16, md: 16 },
+                                            fontSize: "24px",
                                             fontWeight: 600,
                                             color: "white",
                                         }}
@@ -207,7 +208,7 @@ const CoverBottomHalf: React.FC<CoverBottomHalfProps> = ({
                                     justifyContent: "center",
                                     fontFamily: 'Roboto, system-ui, -apple-system, "Segoe UI", Arial, sans-serif',
                                     fontWeight: 510,
-                                    fontSize: { xs: 24, md: 28 },
+                                    fontSize: "24px",
                                     color: "#111827",
                                 }}
                             >
@@ -227,7 +228,7 @@ const CoverBottomHalf: React.FC<CoverBottomHalfProps> = ({
                         <Box sx={{ flex: 1, textAlign: "left" }}>
                             <Typography
                                 sx={{
-                                    fontSize: { xs: 24, md: 32 },
+                                    fontSize: "24px",
                                     fontWeight: 700,
                                 }}
                             >
@@ -239,7 +240,7 @@ const CoverBottomHalf: React.FC<CoverBottomHalfProps> = ({
                                 </Box>
                             </Typography>
 
-                            <Typography sx={{ fontSize: { xs: 20, md: 28 }, color: "#000" }}>
+                            <Typography sx={{ fontSize: "24px", color: "#000" }}>
                                 Overall skincare health score
                             </Typography>
                         </Box>

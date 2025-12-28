@@ -115,13 +115,13 @@ const HowToUseCard = ({
     >
       <Box sx={{ flex: 1, minWidth: 0 }}>
         <Typography sx={{
-          fontSize: { xs: 14, sm: 24 },
-          fontWeight: 600,
+          fontSize: "24px",
+          fontWeight: 700,
           color: "#000",
         }}>
           {title}
         </Typography>
-        <Typography sx={{ mt: 0.75, fontSize: { xs: 14, md: 16 }, color: "#000" }}>
+        <Typography sx={{ mt: 0.75, fontSize: "20px", fontWeight: 400, color: "#000" }}>
           {body}
         </Typography>
       </Box>
@@ -131,8 +131,8 @@ const HowToUseCard = ({
           component="img"
           src={image}
           sx={{
-            width: { xs: 160, md: 198 },
-            height: { xs: 160, md: 244 },
+            width: { xs: 200, md: 244 },
+            height: { xs: 240, md: 244 },
             objectFit: "contain",
             flexShrink: 0,
             alignSelf: "flex-start",
@@ -162,7 +162,7 @@ const ProductCard = ({
     <Card
       sx={{
         p: 2,
-        width: { xs: "100%", md: 307 },
+        width: { xs: "100%", md: 350 },
         height: { xs: "auto", md: 422 },
         borderRadius: "13px",
         border: "1px solid #e5e7eb",
@@ -175,9 +175,9 @@ const ProductCard = ({
     >
       <Box
         sx={{
-          height: { xs: 160, md: 250 },
-          width: { xs: 120, md: 130 },
-          minWidth: { xs: 120, md: 130 },
+          height: { xs: 200, md: 250 },
+          width: { xs: 100, md: 130 },
+          minWidth: { xs: 100, md: 130 },
           bgcolor: "#ffffff",
           borderRadius: "13px",
           display: "flex",
@@ -200,7 +200,7 @@ const ProductCard = ({
       >
         <Typography
           sx={{
-            fontSize: { xs: 14, md: 16 },
+            fontSize: "24px",
             fontWeight: 700,
             color: "#111827",
             lineHeight: 1.2,
@@ -212,8 +212,8 @@ const ProductCard = ({
         <Typography
           sx={{
             mt: 1,
-            fontSize: { xs: 14, md: 16 },
-            fontWeight: 700,
+            fontSize: "24px",
+            fontWeight: 400,
             color: "#d12b2b",
           }}
         >
@@ -228,8 +228,8 @@ const ProductCard = ({
               borderRadius: 999,
               bgcolor: "#2d5a3d",
               color: "#fff",
-              fontSize: 12,
-              fontWeight: 600,
+              fontSize: "20px",
+              fontWeight: 400,
               display: "inline-flex",
               alignItems: "center",
               gap: 1,
@@ -241,7 +241,7 @@ const ProductCard = ({
               component="img"
               src="/icons/buy.svg"
               alt="Buy"
-              sx={{ width: 18, height: 18, objectFit: "contain", display: "block" }}
+              sx={{ width: 24, height: 24, objectFit: "contain", display: "block" }}
             />
           </Box>
         </Box>
@@ -253,8 +253,8 @@ const ProductCard = ({
               py: 0.8,
               border: "1px solid #2d5a3d",
               borderRadius: 999,
-              fontSize: 12,
-              fontWeight: 600,
+              fontSize: "18px",
+              fontWeight: 400,
               color: "#2d5a3d",
               whiteSpace: "nowrap",
             }}
@@ -341,8 +341,8 @@ export default function SkincareRoutinePage() {
               mt: 2.5,
               mb: 0.75,
               fontFamily: 'Roboto, system-ui, -apple-system, "Segoe UI", Arial, sans-serif',
-              fontWeight: 510,
-              fontSize: "40px",
+              fontWeight: 700,
+              fontSize: "36px",
               lineHeight: "100%",
               letterSpacing: "0%",
             }}>
@@ -351,7 +351,7 @@ export default function SkincareRoutinePage() {
             <Typography sx={{
               mt: 2,
               mb: 2.5,
-              fontSize: { xs: 18, sm: 24 },
+              fontSize:   "24px",
               color: "#6b7280",
               letterSpacing: 1.2,
             }}>
@@ -400,15 +400,15 @@ export default function SkincareRoutinePage() {
             <StepRail index={i} total={steps.length} />
             <Box sx={{ flex: 1 }}>
               <Typography sx={{
-                fontSize: { xs: 20, sm: 24 },
-                fontWeight: 800,
+                fontSize: "28px",
+                fontWeight: 700,
                 color: "#000",
                 letterSpacing: 1.2,
               }}>{s.title}</Typography>
               <Typography sx={{
                 mt: 2,
                 mb: 2.5,
-                fontSize: { xs: 12, sm: 16 },
+                fontSize: "20px",
                 fontStyle: "normal",
                 color: "#000",
               }}>

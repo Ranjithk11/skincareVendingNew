@@ -39,7 +39,7 @@ export default function VendingProducts({ data }: Props) {
       <Typography sx={{ fontWeight: 800, fontSize: 30, mt: 5, mb: 2 }}>
         My Skincare Products
       </Typography>
-      <Typography sx={{ fontSize: 18, letterSpacing: 1.6, color: "#000",mb:2 }}>
+      <Typography sx={{ fontSize: "24px", letterSpacing: 1.6,fontWeight:400, color: "#000",mb:2 }}>
         WHAT WE RECOMMEND
       </Typography>
 
@@ -98,16 +98,31 @@ export default function VendingProducts({ data }: Props) {
               <Typography
                 sx={{
                   mt: 0.75,
-                  fontSize: "16px",
+                  fontSize: "24px",
                   color: "#000",
                   fontWeight: 400,
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
+                  whiteSpace: "normal",
+                  wordBreak: "break-word",
+                  lineHeight: 1.15,
                   fontFamily: "Roboto, system-ui, -apple-system",
                 }}
               >
-                {c?.productCategory?.title || "Category"}
+                {(() => {
+                  const title = c?.productCategory?.title || "Category";
+                  const parts = String(title).trim().split(/\s+/);
+                  const first = parts[0] || "";
+                  const rest = parts.slice(1).join(" ");
+
+                  return rest ? (
+                    <>
+                      {first}
+                      <br />
+                      {rest}
+                    </>
+                  ) : (
+                    first
+                  );
+                })()}
               </Typography>
             </Box>
           );

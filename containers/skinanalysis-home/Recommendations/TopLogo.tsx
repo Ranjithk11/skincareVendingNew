@@ -63,7 +63,7 @@ const TopLogo: React.FC<TopLogoProps> = ({
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-end",
-            width: 300,
+            width: 350,
             gap: "10px",
             flexWrap: "nowrap",
           }}
@@ -76,6 +76,7 @@ const TopLogo: React.FC<TopLogoProps> = ({
               height: "60px",
               px: "10px",
               py: "19px",
+              fontSize: "24px",
               borderRadius: "64px",
               textTransform: "none",
               minWidth: 0,
@@ -83,7 +84,7 @@ const TopLogo: React.FC<TopLogoProps> = ({
               borderColor: "#d1d5db",
               borderWidth: "1px",
               color: "#111827",
-              fontWeight: 600,
+              fontWeight: 500,
               backgroundColor: "#ffffff",
             }}
             onClick={onCartClick}
@@ -94,24 +95,37 @@ const TopLogo: React.FC<TopLogoProps> = ({
               invisible={!cartCount}
               sx={{
                 "& .MuiBadge-badge": {
-                  fontSize: 12,
-                  fontWeight: 700,
+                  fontSize: 24,
+                  fontWeight: 500,
                 },
               }}
             >
-              <Image src="/icons/cart.svg" width={18} height={18} alt="" />
+              <Image src="/icons/cart.svg" width={24} height={24} alt="" />
             </Badge>
-            &nbsp;My cart
+            <Box
+              component="span"
+              sx={{
+                ml: 1,
+                fontSize: "24px",
+                fontWeight: 500,
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
+              My cart
+            </Box>
           </Button>
 
           <Button
             variant="outlined"
             size="small"
             sx={{
-              width: 200,
+              width: 250,
               height: "60px",
               px: "10px",
               py: "19px",
+              fontSize:"24px",
               borderRadius: "64px",
               textTransform: "none",
               minWidth: 0,
@@ -119,13 +133,13 @@ const TopLogo: React.FC<TopLogoProps> = ({
               borderColor: "#d1d5db",
               borderWidth: "1px",
               color: "#111827",
-              fontWeight: 600,
+              fontWeight: 500,
               backgroundColor: "#ffffff",
             }}
             onClick={onScanAgainClick}
           >
             <Box sx={{ display: "inline-flex", alignItems: "center", gap: 1 }}>
-              <Image src="/icons/face.png" width={18} height={18} alt="" />
+              <Image src="/icons/face.png" width={ 24} height={24} alt="" />
               <span>Scan again</span>
             </Box>
           </Button>

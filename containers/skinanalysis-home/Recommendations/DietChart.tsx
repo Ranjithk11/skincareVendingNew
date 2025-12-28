@@ -100,7 +100,7 @@ export default function DietChart({ data }: DietChartProps) {
           mt: 2.5,
           mb: 0.75,
           fontFamily: 'Roboto, system-ui, -apple-system, "Segoe UI", Arial, sans-serif',
-          fontWeight: 510,
+          fontWeight: 700,
           fontSize: "32px",
           lineHeight: "100%",
           letterSpacing: "0%",
@@ -111,8 +111,9 @@ export default function DietChart({ data }: DietChartProps) {
           sx={{
             mt: 2,
             mb: 2.5,
-            fontSize: { xs: 18, sm: 24 },
-            color: "#6b7280",
+            fontSize: "24px",
+            fontWeight: 400,
+            color: "#000",
             letterSpacing: 1.2,
           }}
         >
@@ -126,17 +127,17 @@ export default function DietChart({ data }: DietChartProps) {
               mb: 0.75,
               fontFamily: 'Roboto, system-ui, -apple-system, "Segoe UI", Arial, sans-serif',
               fontWeight: 700,
-              fontSize: "20px",
+              fontSize: "28px",
               lineHeight: "100%",
               letterSpacing: "0%",
             }}>Breakfast</Typography>
             <Box sx={{ flex: 1 }} />
-            <Typography fontSize={14} fontWeight={800} color="#f97316">
+            <Typography fontSize="24px" fontWeight={700} color="#f97316">
               Option 1
             </Typography>
           </Box>
 
-          <Typography fontSize={14} color="#000" mb={1.5}>
+          <Typography fontSize="24px" fontWeight={400} color="#000" mb={1.5}>
             Any fresh smoothie, green tea or some nuts
           </Typography>
 
@@ -160,17 +161,17 @@ export default function DietChart({ data }: DietChartProps) {
               mb: 0.75,
               fontFamily: 'Roboto, system-ui, -apple-system, "Segoe UI", Arial, sans-serif',
               fontWeight: 700,
-              fontSize: "20px",
+              fontSize: "28px",
               lineHeight: "100%",
               letterSpacing: "0%",
             }} >Lunch</Typography>
             <Box flex={1} />
-            <Typography fontSize={11} fontWeight={800} color="#f97316">
+            <Typography fontSize="24px" fontWeight={700} color="#f97316">
               Option 1
             </Typography>
           </Box>
 
-          <Typography fontSize={14} color="#000" mb={1.5}>
+          <Typography fontSize="24px" fontWeight={400} color="#000" mb={1.5}>
             Salmon, Broccoli / Grilled fish or chicken
           </Typography>
 
@@ -193,17 +194,17 @@ export default function DietChart({ data }: DietChartProps) {
               mb: 0.75,
               fontFamily: 'Roboto, system-ui, -apple-system, "Segoe UI", Arial, sans-serif',
               fontWeight: 700,
-              fontSize: "20px",
+              fontSize: "28px",
               lineHeight: "100%",
               letterSpacing: "0%",
             }}>Lunch</Typography>
             <Box flex={1} />
-            <Typography fontSize={11} fontWeight={800} color="#22c55e">
+            <Typography fontSize="24px" fontWeight={700} color="#22c55e">
               Option 2 (vegetarian)
             </Typography>
           </Box>
 
-          <Typography fontSize={14} color="#000" mb={1.5}>
+          <Typography fontSize="24px" fontWeight={400} color="#000" mb={1.5}>
             Whole grain, mixed vegetables, fruits and nuts
           </Typography>
 
@@ -226,14 +227,14 @@ export default function DietChart({ data }: DietChartProps) {
         {/* DINNER OPTION 1 */}
         <SectionCard sx={{ mt: 3, width: { xs: "100%", md: 977 }, height: { xs: "auto", md: 475 } }}>
           <Box display="flex" alignItems="center" mb={0.5}>
-            <Typography fontWeight={900}>Dinner</Typography>
+            <Typography fontSize="28px" fontWeight={700}>Dinner</Typography>
             <Box flex={1} />
-            <Typography fontSize={11} fontWeight={800} color="#f97316">
+            <Typography fontSize="24px" fontWeight={700} color="#f97316">
               Option 1
             </Typography>
           </Box>
 
-          <Typography fontSize={12} color="#374151" mb={1.5}>
+          <Typography fontSize="24px" fontWeight={400} color="#000" mb={1.5}>
             Salmon, Broccoli / Grilled fish or chicken
           </Typography>
 
@@ -252,14 +253,14 @@ export default function DietChart({ data }: DietChartProps) {
           <Divider sx={{ my: 2, borderColor: "#e5e7eb" }} />
 
           <Box display="flex" alignItems="center" mb={0.5}>
-            <Typography fontWeight={900}>Dinner</Typography>
+            <Typography fontSize="28px" fontWeight={700}>Dinner</Typography>
             <Box flex={1} />
-            <Typography fontSize={11} fontWeight={800} color="#22c55e">
+            <Typography fontSize="24px" fontWeight={700} color="#22c55e">
               Option 2 (vegetarian)
             </Typography>
           </Box>
 
-          <Typography fontSize={12} color="#374151" mb={1.5}>
+          <Typography fontSize=  "24px" fontWeight={400} color="#000" mb={1.5}>
             Whole grain, mixed vegetables, fruits and nuts
           </Typography>
 
