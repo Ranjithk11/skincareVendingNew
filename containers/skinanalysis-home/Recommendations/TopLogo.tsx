@@ -47,7 +47,7 @@ const TopLogo: React.FC<TopLogoProps> = ({
             minWidth: 310,
           }}
         >
-          <Box sx={{ position: "relative", width: 291, height: 69 }}>
+          <Box sx={{ position: "relative", width: 270, height: 69 }}>
             <Image
               src="/wending/goldlog.svg"
               alt=""
@@ -63,7 +63,7 @@ const TopLogo: React.FC<TopLogoProps> = ({
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-end",
-            width: 350,
+            width: 340,
             gap: "10px",
             flexWrap: "nowrap",
           }}
@@ -72,7 +72,7 @@ const TopLogo: React.FC<TopLogoProps> = ({
             variant="outlined"
             size="small"
             sx={{
-              width: 200,
+              width: 180,
               height: "60px",
               px: "10px",
               py: "19px",
