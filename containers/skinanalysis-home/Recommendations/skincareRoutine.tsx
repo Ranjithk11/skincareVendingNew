@@ -228,8 +228,8 @@ const ProductCard = ({
               borderRadius: 999,
               bgcolor: "#2d5a3d",
               color: "#fff",
-              fontSize: "20px",
-              fontWeight: 400,
+              fontSize: "18px",
+              fontWeight: 500,
               display: "inline-flex",
               alignItems: "center",
               gap: 1,
@@ -241,7 +241,7 @@ const ProductCard = ({
               component="img"
               src="/icons/buy.svg"
               alt="Buy"
-              sx={{ width: 24, height: 24, objectFit: "contain", display: "block" }}
+              sx={{ width: 18, height: 18, objectFit: "contain", display: "block" }}
             />
           </Box>
         </Box>
@@ -254,7 +254,7 @@ const ProductCard = ({
               border: "1px solid #2d5a3d",
               borderRadius: 999,
               fontSize: "18px",
-              fontWeight: 400,
+              fontWeight: 500,
               color: "#2d5a3d",
               whiteSpace: "nowrap",
             }}
