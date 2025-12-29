@@ -4,7 +4,7 @@ import {
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import { styled, useTheme } from "@mui/material/styles";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { APP_ROUTES } from "@/utils/routes";
@@ -323,10 +323,85 @@ const CoverInner: React.FC<CoverPageProps> = ({
   );
   const { count: cartCount } = useCart();
   const [openCart, setOpenCart] = useState(false);
-    const [
-      getUploadImageInfo,
-      { data: dataImageInfo, isLoading: isLoadingImageInfo },
-    ] = useGetUploadImageInfoMutation();
+  const [sheetTopVh, setSheetTopVh] = useState(50);
+  const outerScrollRef = useRef<HTMLDivElement | null>(null);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+  const sheetScrollRef = useRef<HTMLDivElement | null>(null);
+  const [
+    getUploadImageInfo,
+    { data: dataImageInfo, isLoading: isLoadingImageInfo },
+  ] = useGetUploadImageInfoMutation();
+
+  const isExpanded = sheetTopVh <= 25;
+
+  useEffect(() => {
+    const el = sheetScrollRef.current;
+    if (!el) return;
+
+    let lastTouchY: number | null = null;
+
+    const atTop = () => el.scrollTop <= 0;
+    const atBottom = () => el.scrollTop + el.clientHeight >= el.scrollHeight - 1;
+
+    const onWheel = (evt: WheelEvent) => {
+      if (evt.deltaY === 0) return;
+
+      const down = evt.deltaY > 0;
+      const up = evt.deltaY < 0;
+
+      // Expand only when user is already at bottom and keeps scrolling down
+      if (down && atBottom() && sheetTopVh > 25) {
+        evt.preventDefault();
+        const step = Math.abs(evt.deltaY) * 0.04;
+        setSheetTopVh((prev) => Math.max(25, prev - step));
+        return;
+      }
+
+      // Collapse only when user is already at top and keeps scrolling up
+      if (up && atTop() && sheetTopVh < 50) {
+        evt.preventDefault();
+        const step = Math.abs(evt.deltaY) * 0.04;
+        setSheetTopVh((prev) => Math.min(50, prev + step));
+      }
+    };
+
+    const onTouchStart = (evt: TouchEvent) => {
+      lastTouchY = evt.touches?.[0]?.clientY ?? null;
+    };
+
+    const onTouchMove = (evt: TouchEvent) => {
+      const y = evt.touches?.[0]?.clientY;
+      if (y == null || lastTouchY == null) return;
+
+      // deltaUp > 0 means finger moved up (scroll down intent)
+      const deltaUp = lastTouchY - y;
+      if (deltaUp === 0) return;
+
+      const wantsDown = deltaUp > 0;
+      const wantsUp = deltaUp < 0;
+
+      if (wantsDown && atBottom() && sheetTopVh > 25) {
+        evt.preventDefault();
+        const step = Math.abs(deltaUp) * 0.15;
+        setSheetTopVh((prev) => Math.max(25, prev - step));
+      } else if (wantsUp && atTop() && sheetTopVh < 50) {
+        evt.preventDefault();
+        const step = Math.abs(deltaUp) * 0.15;
+        setSheetTopVh((prev) => Math.min(50, prev + step));
+      }
+
+      lastTouchY = y;
+    };
+
+    el.addEventListener("wheel", onWheel, { passive: false });
+    el.addEventListener("touchstart", onTouchStart, { passive: true });
+    el.addEventListener("touchmove", onTouchMove, { passive: false });
+    return () => {
+      el.removeEventListener("wheel", onWheel as any);
+      el.removeEventListener("touchstart", onTouchStart as any);
+      el.removeEventListener("touchmove", onTouchMove as any);
+    };
+  }, [sheetTopVh]);
 
   useEffect(() => {
     const userId =
@@ -501,16 +576,19 @@ const CoverInner: React.FC<CoverPageProps> = ({
                 maxHeight: "100vh",
                 position: "relative",
                 overflowX: "hidden",
-                overflowY: "auto",
+                overflowY: "hidden",
                 backgroundColor: "#f8f6f0",
                 boxShadow: 3,
               }
               : {
                 width: "100%",
-                minHeight: "100vh",
+                height: "100dvh",
                 position: "relative",
+                overflowX: "hidden",
+                overflowY: "hidden",
               }
           }
+          ref={outerScrollRef}
         >
           <TopLogo
             isKiosk={isKiosk}
@@ -525,18 +603,22 @@ const CoverInner: React.FC<CoverPageProps> = ({
             sx={{
               pt: isKiosk ? 8 : 0,
               height: "100dvh",
-              display: "flex",
-              flexDirection: "column",
+              position: "relative",
+              overflow: "hidden",
             }}
+            ref={scrollRef}
           >
             <Box
               sx={{
-                position: "relative",
-                flex: "0 0 50%",
-                minHeight: "50dvh",
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                height: "50dvh",
                 width: "100%",
                 overflow: "hidden",
                 bgcolor: "#111827",
+                zIndex: 0,
               }}
             >
               <Box
@@ -575,7 +657,19 @@ const CoverInner: React.FC<CoverPageProps> = ({
               )}
             </Box>
 
-            <Box sx={{ flex: "0 0 50%", minHeight: "50dvh" }}>
+            <Box
+              sx={{
+                position: "absolute",
+                left: 0,
+                right: 0,
+                top: `${sheetTopVh}dvh`,
+                bottom: 0,
+                overflowY: "auto",
+                WebkitOverflowScrolling: "touch",
+                zIndex: 1,
+              }}
+              ref={sheetScrollRef}
+            >
               <CoverBottomHalf
                 tab={tab}
                 setTab={setTab}
