@@ -598,16 +598,20 @@ const TakeSelfie = () => {
             component="div"
             className="photo-wrapper"
           >
+            {(() => {
+              const previewUrl = dataImageInfo?.data?.url || image;
+              return (
+                <>
             {(isImageUploading ||
               (isLoadingImageInfo && !dataImageInfo?.data?.url)) && (
               <LoadingComponent />
             )}
             {!isImageUploading &&
               !isLoadingImageInfo &&
-              dataImageInfo?.data?.url && (
+              previewUrl && (
                 <Fragment>
                   <Box
-                    sx={{ backgroundImage: `url(${dataImageInfo?.data?.url})` }}
+                    sx={{ backgroundImage: `url(${previewUrl})` }}
                     component="div"
                     className="selfy_image"
                   >
@@ -715,7 +719,7 @@ const TakeSelfie = () => {
               )}
             {!isImageUploading &&
               !isLoadingImageInfo &&
-              !dataImageInfo?.data?.url && (
+              !previewUrl && (
                 <Fragment>
                   <IconButton
                     onClick={() => {
@@ -729,6 +733,9 @@ const TakeSelfie = () => {
                   </Typography>
                 </Fragment>
               )}
+                </>
+              );
+            })()}
           </Box>
         )}
         {openCamera && (

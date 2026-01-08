@@ -100,11 +100,11 @@ export default function Slide2({
                   bgcolor: "white",
                   width: "100%",
                   maxWidth: "921.9998779296875px",
-                  height: "160px",
+                  height: "170px",
                   borderRadius: "19px",
                   pt: "20px",
                   pr: "98px",
-                  pb: "20px",
+                  pb: "30px",
                   pl: "31px",
                 
                   cursor: "pointer",
@@ -148,10 +148,11 @@ export default function Slide2({
                       fontWeight: 400,
                       fontStyle: "normal",
                       color: "#6b7280",
-                      fontSize: "18px",
+                      fontSize: "24px",
                       lineHeight: 1.4,
                       letterSpacing: 0,
                       maxWidth: "600px",
+                      mb: 2,
                     }}
                   >
                     {option.description}
